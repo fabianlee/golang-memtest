@@ -7,9 +7,14 @@ import (
  "runtime"
  "math/rand"
  "time"
+ "os/signal"
+ "syscall"
 )
 
 func main() {
+
+    // alert to any OS signals sent while running
+    CatchOSSignals()
 
     // get number of Mb to allocate from param
     nmb := ReadEnvOrArgs("nmb")
@@ -27,6 +32,7 @@ func main() {
       // if this is not done, it will not fill up memory space
       rand.Read(resarr[i])
       PrintMemUsage()
+      time.Sleep(100 * time.Millisecond)
       //fmt.Printf("Total allocated: %dMb\n",i+1)
     }
     fmt.Printf("\n")
@@ -51,6 +57,20 @@ func bToMb(b uint64) uint64 {
     return b / 1024 / 1024
 }
 
+// prove that docker container kill for OOM is abrupt, no OS signals to catch
+func CatchOSSignals() {
+    sigc := make(chan os.Signal, 1)
+    signal.Notify(sigc,
+        syscall.SIGHUP,
+        syscall.SIGINT,
+        syscall.SIGTERM,
+        syscall.SIGQUIT)
+    go func() {
+        s := <-sigc
+        fmt.Printf("SIGNAL from OS!!!!!!!!!!!!")
+        fmt.Println(s)
+    }()
+}
 
 // finds the 'nmb' parameter in either command line param or OS env
 // defaults to 1 if no values found
@@ -58,9 +78,9 @@ func ReadEnvOrArgs(pname string) int {
 
     nmbstr := "1"
     if len(os.Args)>1 {
-	    nmbstr = os.Args[1]
+      nmbstr = os.Args[1]
     }else if len(os.Getenv("nmb"))>0 {
-	    nmbstr = os.Getenv("nmb")
+      nmbstr = os.Getenv("nmb")
     }
 
     nmb,err := strconv.Atoi(nmbstr)
