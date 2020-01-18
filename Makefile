@@ -26,3 +26,5 @@ docker-run-ok: docker-rm
 docker-run-bigmem: docker-rm
 	sudo docker run -it -m 8m --memory-swap 8m -e nmb=12 $(PROJECT)
 
+docker-run-bigmem-slow: docker-rm
+	sudo docker run -it -m 8m --memory-swap 8m -e nmb=12 -e nms=2000 $(PROJECT)
