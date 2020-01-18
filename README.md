@@ -20,6 +20,7 @@ nmb=3 ./golang-memtest
 
 
 # Makefile targets
+* go-compile (compiles go program, although I already compiled Linux binary as convenience)
 * docker-run (builds golang binary, docker image, runs)
 * docker-run-ok (puts 8Mb limit on docker container, allocates 4, should run OK)
 * docker-run-bigmem (puts 8Mb limit on docker container, allocates 12, should FAIL)
