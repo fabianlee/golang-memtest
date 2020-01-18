@@ -7,7 +7,7 @@ clean:
 	sudo docker image rm $(PROJECT) | true
 
 go-compile:
-	go build
+	CGO_ENABLED=0 go build
 
 docker-build: go-compile
 	sudo docker build -f Dockerfile -t $(PROJECT) .
