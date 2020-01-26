@@ -11,9 +11,13 @@ docker-build:
 clean:
 	sudo docker image rm $(OPV) | true
 
-## runs container in foreground
+## runs container in foreground, using default args
 docker-test:
 	sudo docker run -it --rm $(OPV)
+
+## runs container in foreground, override entrypoint to use use shell
+docker-test-cli:
+	sudo docker run -it --rm --entrypoint "/bin/sh" $(OPV)
 
 ##
 ## No need for any background tasks for this project
