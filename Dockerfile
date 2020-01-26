@@ -10,7 +10,9 @@ FROM golang:1.13-alpine3.11 as builder
 RUN mkdir /build
 ADD *.go /build/
 WORKDIR /build
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o golang-memtest .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o golang-memtest .
+# do not need extldflags set to static, because no external linker (CGO disabled)
+#RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o golang-memtest .
 
 
 #
