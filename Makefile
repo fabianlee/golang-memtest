@@ -15,11 +15,16 @@ clean:
 docker-test:
 	sudo docker run -it --rm $(OPV) /bin/sh
 
+##
+## No need for any background tasks for this project
+## but leaving them here anyway
+##
+
 ## run container in background
 docker-run:
 	sudo docker run -d --rm --name $(PROJECT) $(OPV)
 
-## get to console of running container
+## get into console of container running in background
 docker-cli:
 	sudo docker exec -it $(PROJECT) /bin/sh
 
@@ -31,14 +36,12 @@ docker-logs:
 docker-stop:
 	sudo docker stop $(PROJECT)
 
+
 ## pushes to docker hub
 docker-push:
 	sudo docker push $(OPV)
 
 #########################################
-
-go-compile:
-	CGO_ENABLED=0 go build
 
 docker-test-ok:
 	sudo docker run -it --rm -m 8m --memory-swap 8m -e nmb=4 $(OPV)
