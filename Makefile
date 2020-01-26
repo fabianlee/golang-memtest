@@ -13,7 +13,7 @@ clean:
 
 ## runs container in foreground
 docker-test:
-	sudo docker run -it --rm $(OPV) /bin/sh
+	sudo docker run -it --rm $(OPV)
 
 ##
 ## No need for any background tasks for this project
