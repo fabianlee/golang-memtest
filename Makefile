@@ -43,11 +43,19 @@ docker-push:
 
 #########################################
 
+go-compile-local:
+	CGO_ENABLED=0 go build .
+
 docker-test-ok:
-	sudo docker run -it --rm -m 8m --memory-swap 8m -e nmb=4 $(OPV)
+	sudo docker run -it --rm -m 8m --memory-swap 8m $(OPV) 4
 
 docker-test-bigmem:
-	sudo docker run -it --rm -m 8m --memory-swap 8m -e nmb=12 $(OPV)
+	sudo docker run -it --rm -m 8m --memory-swap 8m $(OPV) 12
 
 docker-test-bigmem-slow:
-	sudo docker run -it --rm -m 8m --memory-swap 8m -e nmb=12 -e nms=2000 $(OPV)
+	sudo docker run -it --rm -m 8m --memory-swap 8m $(OPV) 12 2000
+	# binary can also take arguments as env vars
+	#sudo docker run -it --rm -m 8m --memory-swap 8m -e nmb=12 -e nms=2000 $(OPV)
+
+
+

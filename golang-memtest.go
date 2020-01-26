@@ -80,13 +80,13 @@ func CatchOSSignals() {
 func ReadEnvOrArgs(posIndex int,pname string,defaultString string) int {
 
     nmbstr := defaultString
-    fmt.Printf("str arg default. going to look at index %d, else using %s\n",posIndex,defaultString)
+    //fmt.Printf("str arg default. going to look at index %d, else using %s\n",posIndex,defaultString)
     if len(os.Args)>posIndex {
       nmbstr = os.Args[posIndex]
     }else if len(os.Getenv(pname))>0 {
       nmbstr = os.Getenv(pname)
     }
-    fmt.Printf("final str arg: %s\n",nmbstr)
+    //fmt.Printf("final str arg: %s\n",nmbstr)
 
     nmb,err := strconv.Atoi(nmbstr)
     if err != nil {
