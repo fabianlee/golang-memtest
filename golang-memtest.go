@@ -17,9 +17,9 @@ func main() {
     CatchOSSignals()
 
     // get number of Mb to allocate from param (default=1)
-    nmb := ReadEnvOrArgs("nmb","1")
+    nmb := ReadEnvOrArgs(1,"nmb","1")
     // get number of milliseconds to wait between 1Mb allocations (default=100)
-    nms := ReadEnvOrArgs("nms","100")
+    nms := ReadEnvOrArgs(2,"nms","100")
 
 
     // show initial usage 
@@ -77,14 +77,16 @@ func CatchOSSignals() {
 
 // finds the 'nmb' parameter in either command line param or OS env
 // defaults to 1 if no values found
-func ReadEnvOrArgs(pname string,defaultString string) int {
+func ReadEnvOrArgs(posIndex int,pname string,defaultString string) int {
 
     nmbstr := defaultString
-    if len(os.Args)>1 {
-      nmbstr = os.Args[1]
+    fmt.Printf("str arg default. going to look at index %d, else using %s\n",posIndex,defaultString)
+    if len(os.Args)>posIndex {
+      nmbstr = os.Args[posIndex]
     }else if len(os.Getenv(pname))>0 {
       nmbstr = os.Getenv(pname)
     }
+    fmt.Printf("final str arg: %s\n",nmbstr)
 
     nmb,err := strconv.Atoi(nmbstr)
     if err != nil {
